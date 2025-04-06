@@ -1,51 +1,33 @@
 'use client';
 
+import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { usePathname } from 'next/navigation';
 
 const PageTransition = ({ children }) => {
-  const pathname = usePathname();
-  
-  // Page content container variants
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: { 
-      opacity: 1,
-      transition: {
-        when: "beforeChildren",
-        staggerChildren: 0.1,
-        ease: [0.22, 1, 0.36, 1],
-        duration: 0.4
-      }
-    },
-    exit: {
-      opacity: 0,
-      transition: {
-        when: "afterChildren",
-        staggerChildren: 0.05,
-        staggerDirection: -1,
-        ease: [0.22, 1, 0.36, 1],
-        duration: 0.3
-      }
-    }
-  };
+  const [isVisible, setIsVisible] = useState(false);
 
-  // Individual element variants (will apply to direct children)
-  const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
-    visible: { 
-      y: 0, 
-      opacity: 1,
+  useEffect(() => {
+    setIsVisible(true);
+    
+    return () => setIsVisible(false);
+  }, []);
+
+  const variants = {
+    hidden: { opacity: 0, y: 20 },
+    enter: { 
+      opacity: 1, 
+      y: 0,
       transition: { 
-        duration: 0.6,
-        ease: [0.22, 1, 0.36, 1]
+        duration: 0.5, 
+        ease: [0.22, 1, 0.36, 1],
+        staggerChildren: 0.1
       }
     },
     exit: { 
-      y: 20, 
-      opacity: 0,
-      transition: { 
-        duration: 0.4,
+      opacity: 0, 
+      y: -20,
+      transition: {
+        duration: 0.3, 
         ease: [0.22, 1, 0.36, 1]
       }
     }
@@ -54,12 +36,12 @@ const PageTransition = ({ children }) => {
   return (
     <AnimatePresence mode="wait">
       <motion.div
-        key={pathname}
+        key={`page-${isVisible}`}
         initial="hidden"
-        animate="visible"
+        animate="enter"
         exit="exit"
-        variants={containerVariants}
-        className="page-transition-container w-full"
+        variants={variants}
+        className="w-full"
       >
         {children}
       </motion.div>

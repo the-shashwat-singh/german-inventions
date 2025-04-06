@@ -1,7 +1,10 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { motion } from 'framer-motion';
+import FadeInSection from '@/components/animations/FadeInSection';
+import ScrollReveal from '@/components/animations/ScrollReveal';
 
 // Array with well-known invention data
 const inventions = [
@@ -307,7 +310,12 @@ const lessKnownInventions = [
 
 export default function InventionsPage() {
   const [activeCategory, setActiveCategory] = useState('all');
+  const [isLoaded, setIsLoaded] = useState(false);
   
+  useEffect(() => {
+    setIsLoaded(true);
+  }, []);
+
   const categories = ['all', 'Science & Medicine', 'Engineering & Technology', 'Everyday Life & Media', 'Green Technology'];
 
   // Check if an image exists
@@ -341,31 +349,75 @@ export default function InventionsPage() {
     return 0;
   });
 
+  // Animation variants for staggered children
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.3
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { 
+      opacity: 1, 
+      y: 0, 
+      transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] }
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-indigo-50 pt-28 pb-12">
+    <motion.div 
+      className="min-h-screen bg-indigo-50 pt-28 pb-12"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.5 }}
+    >
       <div className="container mx-auto px-4 md:px-6">
-        <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold text-indigo-900 mb-4">
-            German Inventions & Inventors
-          </h1>
-          <p className="text-xl text-gray-700 max-w-3xl mx-auto">
-            Discover the revolutionary German inventions and the brilliant minds behind them that changed the course of history.
-          </p>
-        </div>
+        <ScrollReveal effect="fade" direction="up">
+          <div className="text-center mb-12">
+            <h1 className="text-4xl md:text-5xl font-bold text-indigo-900 mb-4">
+              German Inventions & Inventors
+            </h1>
+            <p className="text-xl text-gray-700 max-w-3xl mx-auto">
+              Discover the revolutionary German inventions and the brilliant minds behind them that changed the course of history.
+            </p>
+          </div>
+        </ScrollReveal>
 
         {/* Famous Inventions Section */}
         <div className="mb-20">
-          <h2 className="text-3xl font-bold text-indigo-800 mb-8 text-center">
-            <span className="inline-block relative">
-              Famous German Inventions
-              <span className="absolute -bottom-2 left-0 w-full h-1 bg-gradient-to-r from-indigo-500 to-purple-500"></span>
-            </span>
-          </h2>
+          <ScrollReveal effect="fade" direction="up">
+            <h2 className="text-3xl font-bold text-indigo-800 mb-8 text-center">
+              <span className="inline-block relative">
+                Famous German Inventions
+                <span className="absolute -bottom-2 left-0 w-full h-1 bg-gradient-to-r from-indigo-500 to-purple-500"></span>
+              </span>
+            </h2>
+          </ScrollReveal>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <motion.div 
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+            variants={containerVariants}
+            initial="hidden"
+            animate={isLoaded ? "visible" : "hidden"}
+          >
             {inventions.map((invention, index) => (
-              <div key={index} className="bg-white rounded-xl shadow-lg overflow-hidden transform transition duration-300 hover:scale-105">
-                <div className="relative h-56 bg-indigo-100">
+              <motion.div 
+                key={index} 
+                className="bg-white rounded-xl shadow-lg overflow-hidden transform transition duration-300 hover:scale-105"
+                variants={itemVariants}
+                whileHover={{ 
+                  y: -5,
+                  boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.25)"
+                }}
+              >
+                <div className="relative h-56 bg-indigo-100 overflow-hidden">
                   <img 
                     src={invention.inventionImage} 
                     alt={invention.name}
@@ -403,44 +455,67 @@ export default function InventionsPage() {
                     Learn More
                   </Link>
                 </div>
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
 
         {/* Less Known Inventions Section */}
         <div className="mt-20">
-          <h2 className="text-3xl font-bold text-indigo-800 mb-8 text-center">
-            <span className="inline-block relative">
-              Less Known German Innovations
-              <span className="absolute -bottom-2 left-0 w-full h-1 bg-gradient-to-r from-indigo-500 to-purple-500"></span>
-            </span>
-          </h2>
-          
-          <p className="text-xl text-gray-700 max-w-3xl mx-auto text-center mb-8">
-            Discover the lesser-known but equally influential German innovations that have transformed our world.
-          </p>
+          <ScrollReveal effect="fade" direction="up">
+            <h2 className="text-3xl font-bold text-indigo-800 mb-8 text-center">
+              <span className="inline-block relative">
+                Less Known German Innovations
+                <span className="absolute -bottom-2 left-0 w-full h-1 bg-gradient-to-r from-indigo-500 to-purple-500"></span>
+              </span>
+            </h2>
+            
+            <p className="text-xl text-gray-700 max-w-3xl mx-auto text-center mb-8">
+              Discover the lesser-known but equally influential German innovations that have transformed our world.
+            </p>
+          </ScrollReveal>
 
           {/* Category Filter */}
-          <div className="flex flex-wrap justify-center gap-4 mb-10">
-            {categories.map(category => (
-              <button
-                key={category}
-                onClick={() => setActiveCategory(category)}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-colors duration-300 ${
-                  activeCategory === category
-                    ? 'bg-indigo-600 text-white'
-                    : 'bg-white text-indigo-700 hover:bg-indigo-100'
-                }`}
-              >
-                {category === 'all' ? 'All Categories' : category}
-              </button>
-            ))}
-          </div>
+          <FadeInSection delay={0.3}>
+            <div className="flex flex-wrap justify-center gap-4 mb-10">
+              {categories.map((category, index) => (
+                <motion.button
+                  key={category}
+                  onClick={() => setActiveCategory(category)}
+                  className={`px-4 py-2 rounded-full text-sm font-medium transition-colors duration-300 ${
+                    activeCategory === category
+                      ? 'bg-indigo-600 text-white'
+                      : 'bg-white text-indigo-700 hover:bg-indigo-100'
+                  }`}
+                  whileHover={{ y: -2, boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1)" }}
+                  whileTap={{ y: 0 }}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.2 + (index * 0.05), duration: 0.3 }}
+                >
+                  {category === 'all' ? 'All Categories' : category}
+                </motion.button>
+              ))}
+            </div>
+          </FadeInSection>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+          <motion.div 
+            className="grid grid-cols-1 lg:grid-cols-2 gap-10"
+            variants={containerVariants}
+            initial="hidden"
+            animate={isLoaded ? "visible" : "hidden"}
+            key={activeCategory} // Remount the component when category changes for animation
+          >
             {filteredLessKnown.map((invention, index) => (
-              <div key={index} className="bg-white rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl">
+              <motion.div 
+                key={index} 
+                className="bg-white rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl"
+                variants={itemVariants}
+                whileHover={{ 
+                  y: -5,
+                  boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.25)"
+                }}
+              >
                 <div className="flex flex-col">
                   {invention.inventionImage && (
                     <div className="w-full h-72 sm:h-80 relative">
@@ -467,21 +542,43 @@ export default function InventionsPage() {
                       {invention.description}
                     </p>
 
-                    <div className="mb-4">
+                    <motion.div 
+                      className="mb-4"
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: 'auto' }}
+                      transition={{ duration: 0.5, delay: 0.2 }}
+                    >
                       <h4 className="font-semibold text-indigo-800 mb-2">Key Facts:</h4>
                       <ul className="list-disc pl-5 space-y-1 text-gray-600">
                         {invention.keyFacts.map((fact, i) => (
-                          <li key={i}>{fact}</li>
+                          <motion.li 
+                            key={i}
+                            initial={{ opacity: 0, x: -5 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ delay: 0.3 + (i * 0.1) }}
+                          >
+                            {fact}
+                          </motion.li>
                         ))}
                       </ul>
-                    </div>
+                    </motion.div>
 
-                    <div className="mb-4">
+                    <motion.div 
+                      className="mb-4"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ delay: 0.4 }}
+                    >
                       <h4 className="font-semibold text-indigo-800 mb-2">Historical Impact:</h4>
                       <p className="text-gray-600">{invention.impact}</p>
-                    </div>
+                    </motion.div>
                     
-                    <div className="mt-6 pb-4 border-t border-gray-100 pt-4">
+                    <motion.div 
+                      className="mt-6 pb-4 border-t border-gray-100 pt-4"
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.5 }}
+                    >
                       <div className="flex items-center">
                         {invention.hasInventorImage && (
                           <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-indigo-200 mr-4 flex-shrink-0">
@@ -497,28 +594,33 @@ export default function InventionsPage() {
                           <p className="text-sm text-gray-500">Inventor{invention.inventors.length > 1 ? 's' : ''}</p>
                         </div>
                       </div>
-
-                      <div className="mt-4">
-                        <h4 className="font-semibold text-indigo-800 mb-2">About the Inventor{invention.inventors.length > 1 ? 's' : ''}:</h4>
-                        <p className="text-gray-600">{invention.inventorBio}</p>
-                      </div>
-                    </div>
+                    </motion.div>
                   </div>
                 </div>
-              </div>
+              </motion.div>
             ))}
-          </div>
-        </div>
-        
-        <div className="mt-16 text-center">
-          <Link href="/" className="inline-flex items-center px-5 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors duration-300">
-            <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-            </svg>
-            <span>Back to Home</span>
-          </Link>
+          </motion.div>
         </div>
       </div>
-    </div>
+      
+      {/* Back to top button with animation */}
+      <ScrollReveal>
+        <div className="fixed bottom-6 right-6 z-50">
+          <motion.button
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            className="w-12 h-12 rounded-full bg-indigo-600 text-white flex items-center justify-center shadow-lg"
+            whileHover={{ scale: 1.1, backgroundColor: '#4338ca' }}
+            whileTap={{ scale: 0.9 }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7-7m0 0l7 7m-7-7v18" />
+            </svg>
+          </motion.button>
+        </div>
+      </ScrollReveal>
+    </motion.div>
   );
 } 

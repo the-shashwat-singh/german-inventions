@@ -109,17 +109,17 @@ export default function Home() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 1, ease: [0.22, 1, 0.36, 1] }}
             >
-              <Link href="/timeline" className="btn-rounded-primary px-8 py-4 group relative overflow-hidden backdrop-blur-md bg-indigo-600/80 hover:bg-indigo-700/90 transition-all duration-300">
-                <span className="relative z-10">Explore Timeline</span>
+              <Link href="/timeline" className="btn-rounded-primary px-8 py-4 group relative overflow-hidden backdrop-blur-md bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 transition-all duration-300">
+                <span className="relative z-10 text-white font-bold text-lg tracking-wide">Explore Timeline</span>
                 <span className="absolute inset-0 bg-white/10 rounded-lg scale-0 group-hover:scale-100 transition-transform duration-300 ease-out"></span>
               </Link>
-              <Link href="/gallery" className="btn-rounded-secondary px-8 py-4 group relative overflow-hidden backdrop-blur-md bg-purple-600/80 hover:bg-purple-700/90 transition-all duration-300">
-                <span className="relative z-10">View 3D Gallery</span>
-                <span className="absolute inset-0 bg-indigo-50/20 rounded-lg scale-0 group-hover:scale-100 transition-transform duration-300 ease-out"></span>
+              <Link href="/gallery" className="btn-rounded-secondary px-8 py-4 group relative overflow-hidden backdrop-blur-md bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 transition-all duration-300">
+                <span className="relative z-10 text-white font-bold text-lg tracking-wide">View 3D Gallery</span>
+                <span className="absolute inset-0 bg-white/10 rounded-lg scale-0 group-hover:scale-100 transition-transform duration-300 ease-out"></span>
               </Link>
-              <Link href="/inventions" className="btn-rounded-accent px-8 py-4 group relative overflow-hidden backdrop-blur-md bg-blue-600/80 hover:bg-blue-700/90 transition-all duration-300">
-                <span className="relative z-10">All Inventions</span>
-                <span className="absolute inset-0 bg-purple-50/20 rounded-lg scale-0 group-hover:scale-100 transition-transform duration-300 ease-out"></span>
+              <Link href="/inventions" className="btn-rounded-accent px-8 py-4 group relative overflow-hidden backdrop-blur-md bg-gradient-to-r from-blue-600 to-violet-600 hover:from-blue-700 hover:to-violet-700 transition-all duration-300">
+                <span className="relative z-10 text-white font-bold text-lg tracking-wide">All Inventions</span>
+                <span className="absolute inset-0 bg-white/10 rounded-lg scale-0 group-hover:scale-100 transition-transform duration-300 ease-out"></span>
               </Link>
             </motion.div>
           </div>
@@ -343,6 +343,15 @@ export default function Home() {
           }
         }
         
+        @keyframes glow {
+          0%, 100% {
+            box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+          }
+          50% {
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+          }
+        }
+        
         .animate-gradient-x {
           background-size: 200% 200%;
           animation: animate-gradient-x 15s ease infinite;
@@ -390,7 +399,24 @@ export default function Home() {
           border-radius: 0.5rem;
           text-align: center;
           transition: all 0.3s ease;
-          border: 1px solid rgba(255, 255, 255, 0.1);
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+          letter-spacing: 0.02em;
+          box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.1), 0 0 10px rgba(255, 255, 255, 0.1) inset;
+          animation: glow 3s ease-in-out infinite;
+        }
+        
+        .btn-rounded-primary:hover,
+        .btn-rounded-secondary:hover,
+        .btn-rounded-accent:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2), 0 1px 3px rgba(0, 0, 0, 0.1), 0 0 15px rgba(255, 255, 255, 0.2) inset;
+        }
+        
+        .btn-rounded-primary:active,
+        .btn-rounded-secondary:active,
+        .btn-rounded-accent:active {
+          transform: translateY(1px);
         }
         
         html {
