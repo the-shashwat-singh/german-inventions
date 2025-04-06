@@ -44,37 +44,51 @@ export default function Home() {
       {/* Hero Section with Enhanced Parallax and Particles */}
       <section ref={heroRef} className="relative h-screen flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 z-0">
-          {/* Enhanced Background */}
-          <div className="absolute inset-0 bg-gradient-to-br from-indigo-900 via-purple-800 to-blue-900 animate-gradient-slow"></div>
+          {/* Modern Enhanced Background */}
+          <div className="absolute inset-0 bg-gradient-to-br from-indigo-950 via-purple-900 to-blue-950 animate-gradient-x"></div>
           
-          {/* Interactive Particle Background */}
+          {/* 3D Mesh Background */}
+          <div className="absolute inset-0 bg-[url('/assets/svg/mesh-grid.svg')] bg-repeat bg-center opacity-20 animate-pulse-slow"></div>
+          
+          {/* Modern Flowing Gradient Orbs */}
+          <div className="absolute top-0 left-0 w-full h-full overflow-hidden">
+            {/* Large animated gradient orbs */}
+            <div className="absolute top-1/4 left-1/4 w-[600px] h-[600px] rounded-full bg-gradient-to-r from-violet-600/30 to-indigo-600/30 animate-float blur-[120px]"></div>
+            <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] rounded-full bg-gradient-to-r from-purple-600/30 to-blue-600/30 animate-float-delay blur-[100px]"></div>
+            <div className="absolute top-1/2 right-1/3 w-[400px] h-[400px] rounded-full bg-gradient-to-r from-indigo-600/30 to-blue-600/30 animate-float-reverse blur-[80px]"></div>
+            
+            {/* Smaller floating elements for depth */}
+            <div className="absolute top-[20%] right-[10%] w-24 h-24 rounded-full border border-indigo-500/20 animate-orbit"></div>
+            <div className="absolute bottom-[30%] left-[15%] w-16 h-16 rounded-full border border-purple-500/20 animate-orbit-reverse"></div>
+            
+            {/* Tech-inspired line decorations */}
+            <div className="absolute top-[15%] left-[20%] w-[150px] h-[1px] bg-gradient-to-r from-transparent via-indigo-400/40 to-transparent transform rotate-45 animate-pulse-slow"></div>
+            <div className="absolute bottom-[20%] right-[25%] w-[200px] h-[1px] bg-gradient-to-r from-transparent via-purple-400/40 to-transparent transform -rotate-45 animate-pulse-slow"></div>
+          </div>
+          
+          {/* Interactive Particle Background - Enhanced */}
           <ParticleBackground
-            count={50}
+            count={80}
             colors={['#8B5CF6', '#C4B5FD', '#A78BFA', '#6366F1', '#4F46E5']}
             gradient={true}
-            size={{ min: 2, max: 6 }}
+            size={{ min: 1, max: 4 }}
             speed={{ min: 25, max: 60 }}
             direction="up"
             interactivity={true}
           />
           
-          {/* Animated background elements with parallax - Simplified */}
-          <div className="absolute inset-0">
-            {/* Larger light circles with animation */}
-            <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-indigo-600/30 rounded-full filter blur-[100px] animate-pulse"></div>
-            <div className="absolute bottom-1/4 right-1/3 w-[500px] h-[500px] bg-purple-600/30 rounded-full filter blur-[120px] animate-pulse" style={{ animationDelay: '1s' }}></div>
-            <div className="absolute top-1/3 right-1/4 w-80 h-80 bg-blue-600/30 rounded-full filter blur-[100px] animate-pulse" style={{ animationDelay: '2s' }}></div>
-          </div>
+          {/* Futuristic Grid Overlay */}
+          <div className="absolute inset-0 bg-[url('/assets/svg/circuit-pattern.svg')] bg-repeat-space opacity-10"></div>
           
-          {/* Grid overlay with better opacity */}
-          <div className="absolute inset-0 opacity-15 bg-[url('/assets/svg/pattern-grid.svg')] bg-repeat"></div>
+          {/* Modern Noise Texture for depth */}
+          <div className="absolute inset-0 bg-[url('/assets/svg/noise.svg')] bg-repeat opacity-[0.03] mix-blend-overlay"></div>
           
           {/* Gradient overlay with improved colors */}
-          <div className="absolute inset-0 bg-gradient-to-t from-indigo-900/70 via-transparent to-indigo-900/50"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-indigo-950/90 via-transparent to-indigo-950/70"></div>
         </div>
 
         <motion.div className="container mx-auto px-4 md:px-6 relative z-10 text-center" style={{ y: heroTextY, opacity: heroOpacity }}>
-          <div className="text-white filter drop-shadow-xl">
+          <div className="text-white filter drop-shadow-xl backdrop-blur-sm bg-black/5 p-8 rounded-2xl border border-white/10">
             <motion.div 
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
@@ -83,7 +97,7 @@ export default function Home() {
               <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white via-blue-100 to-indigo-200 animate-shine">
                 Discover German <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-300 to-purple-200">Innovations</span>
               </h1>
-              <p className="text-lg md:text-xl text-gray-200 mb-10 max-w-2xl mx-auto backdrop-blur-sm bg-black/5 p-4 rounded-lg">
+              <p className="text-lg md:text-xl text-gray-200 mb-10 max-w-2xl mx-auto">
                 Explore the revolutionary inventions from Germany that changed the world through
                 interactive 3D models and timelines.
               </p>
@@ -95,15 +109,15 @@ export default function Home() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 1, ease: [0.22, 1, 0.36, 1] }}
             >
-              <Link href="/timeline" className="btn-rounded-primary px-8 py-4 group relative overflow-hidden">
+              <Link href="/timeline" className="btn-rounded-primary px-8 py-4 group relative overflow-hidden backdrop-blur-md bg-indigo-600/80 hover:bg-indigo-700/90 transition-all duration-300">
                 <span className="relative z-10">Explore Timeline</span>
                 <span className="absolute inset-0 bg-white/10 rounded-lg scale-0 group-hover:scale-100 transition-transform duration-300 ease-out"></span>
               </Link>
-              <Link href="/gallery" className="btn-rounded-secondary px-8 py-4 group relative overflow-hidden">
+              <Link href="/gallery" className="btn-rounded-secondary px-8 py-4 group relative overflow-hidden backdrop-blur-md bg-purple-600/80 hover:bg-purple-700/90 transition-all duration-300">
                 <span className="relative z-10">View 3D Gallery</span>
                 <span className="absolute inset-0 bg-indigo-50/20 rounded-lg scale-0 group-hover:scale-100 transition-transform duration-300 ease-out"></span>
               </Link>
-              <Link href="/inventions" className="btn-rounded-accent px-8 py-4 group relative overflow-hidden">
+              <Link href="/inventions" className="btn-rounded-accent px-8 py-4 group relative overflow-hidden backdrop-blur-md bg-blue-600/80 hover:bg-blue-700/90 transition-all duration-300">
                 <span className="relative z-10">All Inventions</span>
                 <span className="absolute inset-0 bg-purple-50/20 rounded-lg scale-0 group-hover:scale-100 transition-transform duration-300 ease-out"></span>
               </Link>
@@ -121,7 +135,7 @@ export default function Home() {
           <svg className="w-8 h-8 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
           </svg>
-          <span className="text-sm mt-2">Scroll Down</span>
+          <span className="text-sm mt-2 bg-black/20 px-4 py-1 rounded-full backdrop-blur-sm">Scroll Down</span>
         </motion.div>
       </section>
 
@@ -250,11 +264,11 @@ export default function Home() {
             transform: translateY(-15px) translateX(30px);
           }
           75% {
-            transform: translateY(-40px) translateX(-15px);
+            transform: translateY(-25px) translateX(-15px);
           }
         }
         
-        @keyframes gradient-slow {
+        @keyframes animate-gradient-x {
           0% {
             background-position: 0% 50%;
           }
@@ -266,23 +280,121 @@ export default function Home() {
           }
         }
         
-        @keyframes shine {
-          from {
-            background-position: 200% center;
+        @keyframes float {
+          0%, 100% {
+            transform: translateY(0) translateX(0);
           }
-          to {
-            background-position: -200% center;
+          33% {
+            transform: translateY(-30px) translateX(20px);
+          }
+          66% {
+            transform: translateY(-15px) translateX(-20px);
           }
         }
         
-        .animate-gradient-slow {
+        @keyframes float-delay {
+          0%, 100% {
+            transform: translateY(0) translateX(0);
+          }
+          33% {
+            transform: translateY(30px) translateX(-20px);
+          }
+          66% {
+            transform: translateY(15px) translateX(20px);
+          }
+        }
+        
+        @keyframes float-reverse {
+          0%, 100% {
+            transform: translateY(0) translateX(0);
+          }
+          33% {
+            transform: translateY(25px) translateX(-15px);
+          }
+          66% {
+            transform: translateY(-20px) translateX(-25px);
+          }
+        }
+        
+        @keyframes orbit {
+          from {
+            transform: rotate(0deg) translateX(50px) rotate(0deg);
+          }
+          to {
+            transform: rotate(360deg) translateX(50px) rotate(-360deg);
+          }
+        }
+        
+        @keyframes orbit-reverse {
+          from {
+            transform: rotate(360deg) translateX(70px) rotate(-360deg);
+          }
+          to {
+            transform: rotate(0deg) translateX(70px) rotate(0deg);
+          }
+        }
+        
+        @keyframes pulse-slow {
+          0%, 100% {
+            opacity: 0.5;
+          }
+          50% {
+            opacity: 0.8;
+          }
+        }
+        
+        .animate-gradient-x {
           background-size: 200% 200%;
-          animation: gradient-slow 15s ease infinite;
+          animation: animate-gradient-x 15s ease infinite;
+        }
+        
+        .animate-float {
+          animation: float 20s ease-in-out infinite;
+        }
+        
+        .animate-float-delay {
+          animation: float-delay 25s ease-in-out infinite;
+        }
+        
+        .animate-float-reverse {
+          animation: float-reverse 22s ease-in-out infinite;
+        }
+        
+        .animate-orbit {
+          animation: orbit 20s linear infinite;
+        }
+        
+        .animate-orbit-reverse {
+          animation: orbit-reverse 25s linear infinite;
+        }
+        
+        .animate-pulse-slow {
+          animation: pulse-slow 8s ease-in-out infinite;
         }
         
         .animate-shine {
           background-size: 200% auto;
-          animation: shine 8s linear infinite;
+          animation: shine 3s linear infinite;
+        }
+        
+        @keyframes shine {
+          to {
+            background-position: 200% center;
+          }
+        }
+        
+        .btn-rounded-primary,
+        .btn-rounded-secondary,
+        .btn-rounded-accent {
+          font-weight: 600;
+          border-radius: 0.5rem;
+          text-align: center;
+          transition: all 0.3s ease;
+          border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        html {
+          scroll-behavior: smooth;
         }
       `}</style>
     </div>

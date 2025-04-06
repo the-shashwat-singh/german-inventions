@@ -78,7 +78,7 @@ const QuizQuestion = ({ question, onAnswer, timeLeft }: QuizQuestionProps) => {
         : 'border-gray-200 hover:border-indigo-200 hover:bg-indigo-50/50';
     }
     
-    if (option === question.correctAnswer) {
+    if (option === question.correctAnswer && hasAnswered) {
       return 'border-green-300 bg-green-50 shadow-md';
     }
     
@@ -200,7 +200,7 @@ const QuizQuestion = ({ question, onAnswer, timeLeft }: QuizQuestionProps) => {
               />
             </svg>
             <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center">
-              <span className="text-lg font-bold">{timeLeft}</span>
+              <span className="text-lg font-bold text-indigo-700">{timeLeft}</span>
             </div>
           </div>
         </div>
