@@ -3,24 +3,309 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --primary: #4f46e5;
+  --primary-hover: #4338ca;
+  --secondary: #8b5cf6;
+  --secondary-hover: #7c3aed;
+  --accent: #d946ef;
+  --muted: #f3f4f6;
+  --border: #e5e7eb;
+  --radius: 0.5rem;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-primary: var(--primary);
+  --color-secondary: var(--secondary);
+  --font-sans: var(--font-inter);
+  --font-heading: var(--font-outfit);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #0f172a;
+    --foreground: #f3f4f6;
+    --primary: #6366f1;
+    --primary-hover: #818cf8;
+    --secondary: #a78bfa;
+    --secondary-hover: #c4b5fd;
+    --accent: #f0abfc;
+    --muted: #1e293b;
+    --border: #334155;
   }
 }
 
 body {
-  background: var(--background);
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--background);
+  line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading), ui-sans-serif, system-ui, sans-serif;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+a {
+  color: var(--primary);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: var(--primary-hover);
+}
+
+button {
+  transition: all 0.2s ease;
+}
+
+/* Custom scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: var(--muted);
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, var(--primary), var(--secondary));
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(to bottom, var(--primary-hover), var(--secondary-hover));
+}
+
+/* Add this class to any container that needs a nice scrolling effect */
+.smooth-scroll {
+  scroll-behavior: smooth;
+}
+
+/* Card and UI elements styling */
+.glass-effect {
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+}
+
+.card-hover {
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+.card-hover:hover {
+  transform: translateY(-8px) translateZ(0);
+  box-shadow: 0 20px 30px -10px rgba(79, 70, 229, 0.15), 
+              0 10px 20px -5px rgba(79, 70, 229, 0.1);
+}
+
+/* Custom utility classes */
+.text-gradient {
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  background-image: linear-gradient(to right, #6366f1, #a855f7, #ec4899);
+}
+
+@layer components {
+  .btn-primary {
+    @apply inline-block px-6 py-3 font-bold text-white transition-all duration-300 
+    bg-gradient-to-r from-blue-600 to-indigo-600 
+    rounded-lg shadow-md hover:shadow-lg border border-white/10;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+    letter-spacing: 0.02em;
+  }
+  
+  .btn-primary:hover {
+    @apply from-blue-700 to-indigo-700;
+  }
+  
+  .btn-secondary {
+    @apply inline-block px-6 py-3 font-bold text-indigo-900 transition-all duration-300 
+    bg-white hover:bg-gray-100 rounded-lg shadow-md hover:shadow-lg border border-indigo-100;
+    letter-spacing: 0.02em;
+  }
+  
+  .btn-rounded-primary {
+    @apply inline-flex items-center px-6 py-3 rounded-lg bg-gradient-to-r from-blue-700 to-indigo-800 hover:from-blue-600 hover:to-indigo-700 transition-all duration-300 text-white font-bold shadow-md border border-white/10 backdrop-blur-sm;
+  }
+  
+  .btn-rounded-secondary {
+    @apply inline-flex items-center px-6 py-3 rounded-lg bg-white hover:bg-gray-100 transition-all duration-300 text-indigo-900 font-bold shadow-md border border-indigo-100;
+    letter-spacing: 0.02em;
+  }
+  
+  .glass-effect {
+    @apply bg-white/10 backdrop-blur-sm border border-white/20;
+  }
+}
+
+/* Main content styles */
+:root {
+  --foreground-rgb: 255, 255, 255;
+  --background-start-rgb: 0, 0, 0;
+  --background-end-rgb: 0, 0, 0;
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to bottom,
+      rgb(var(--background-start-rgb)),
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-end-rgb));
+}
+
+/* Modern form elements */
+input, textarea, select {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.75rem 1rem;
+  background-color: var(--background);
+  transition: all 0.2s ease;
+}
+
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+}
+
+/* Animation utilities */
+.hover-scale {
+  transition: transform 0.3s ease;
+}
+
+.hover-scale:hover {
+  transform: scale(1.05);
+}
+
+@layer base {
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-bold;
+  }
+}
+
+/* Import animations */
+@import './animations.css';
+
+/* Custom scrollbar for the gallery sidebar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(243, 244, 246, 0.5);
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(79, 70, 229, 0.3);
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(79, 70, 229, 0.5);
+}
+
+@layer utilities {
+  .text-shadow {
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+  
+  .text-shadow-sm {
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  }
+}
+
+@layer components {
+  .btn-rounded-primary {
+    @apply inline-flex items-center px-6 py-3 rounded-lg bg-gradient-to-r from-blue-700 to-indigo-800 hover:from-blue-600 hover:to-indigo-700 transition-all duration-300 text-white font-bold shadow-md border border-white/10 backdrop-blur-sm;
+  }
+  
+  .btn-rounded-secondary {
+    @apply inline-flex items-center px-6 py-3 rounded-lg bg-white hover:bg-gray-100 transition-all duration-300 text-indigo-900 font-bold shadow-md border border-indigo-100;
+    letter-spacing: 0.02em;
+  }
+  
+  .btn-primary {
+    @apply inline-flex items-center px-6 py-3 rounded-lg bg-indigo-600 text-white font-medium hover:bg-indigo-700 transition-all duration-300 shadow-sm;
+  }
+  
+  .btn-secondary {
+    @apply inline-flex items-center px-6 py-3 rounded-lg bg-white text-indigo-900 font-medium hover:bg-indigo-50 transition-all duration-300 shadow-sm border border-indigo-100;
+  }
+}
+
+/* 3D Gallery specific styles */
+.gallery-card {
+  transition: all 0.3s ease;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+.gallery-card:hover {
+  transform: translateY(-5px) translateZ(0);
+  box-shadow: 0 10px 25px -5px rgba(79, 70, 229, 0.25);
+}
+
+.gallery-thumbnail {
+  transition: all 0.5s ease;
+}
+
+.gallery-thumbnail:hover img {
+  transform: scale(1.1);
+}
+
+.sketchfab-embed iframe {
+  width: 100% !important;
+  height: 100% !important;
+  border: none !important;
+}
+
+/* Fix for 3D model loading issues */
+.model-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: #f8f9fa;
+  overflow: hidden;
+}
+
+.model-container iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+/* For missing images */
+.image-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #e6e8f0 0%, #f0f2f8 100%);
+  color: #a1a9c3;
+  width: 100%;
+  height: 100%;
+  font-size: 0.75rem;
+}
+
+/* Background pattern */
+.bg-pattern {
+  background-image: url('/assets/svg/pattern-grid.svg');
+  background-repeat: repeat;
+  opacity: 0.1;
 }

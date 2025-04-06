@@ -1,0 +1,290 @@
+'use client';
+
+import React, { useState, useEffect, useRef } from 'react';
+import { inventions } from '@/data/inventions';
+import Link from 'next/link';
+import Image from 'next/image';
+import { motion, useScroll, useTransform } from "framer-motion";
+import FadeInSection from '@/components/animations/FadeInSection';
+import ScrollReveal from '@/components/animations/ScrollReveal';
+import ParallaxSection from '@/components/animations/ParallaxSection';
+import ParticleBackground from '@/components/animations/ParticleBackground';
+import AnimatedCard from '@/components/animations/AnimatedCard';
+
+export default function Home() {
+  const [isLoaded, setIsLoaded] = useState(false);
+  const { scrollY } = useScroll();
+  const heroRef = useRef(null);
+
+  // Transform values for parallax effect
+  const heroTextY = useTransform(scrollY, [0, 500], [0, 100]);
+  const heroOpacity = useTransform(scrollY, [0, 300], [1, 0]);
+  const particleY = useTransform(scrollY, [0, 500], [0, -150]);
+
+  useEffect(() => {
+    setIsLoaded(true);
+  }, []);
+
+  // Filter only featured inventions
+  const featuredInventions = inventions.filter(invention => invention.featured);
+
+  // Safely get image path without causing rendering issues
+  const getInventionImagePath = (inventionId) => {
+    if (inventionId === 'diesel-engine') return '/assets/images/inventions/diesel enginer.webp';
+    if (inventionId === 'automobile') return '/assets/images/inventions/benz-patent-motor-car.avif';
+    if (inventionId === 'x-ray') return '/assets/images/inventions/xrays.jpg';
+    if (inventionId === 'z3-computer') return '/assets/images/inventions/Z3 computer.JPG';
+    if (inventionId === 'printing-press') return '/assets/images/inventions/printing-press.webp';
+    if (inventionId === 'aspirin') return '/assets/images/inventions/aspirin.jpg';
+    return `/assets/images/inventions/${inventionId}.jpg`;
+  };
+
+  return (
+    <div className="min-h-screen">
+      {/* Hero Section with Enhanced Parallax and Particles */}
+      <section ref={heroRef} className="relative h-screen flex items-center justify-center overflow-hidden">
+        <div className="absolute inset-0 z-0">
+          {/* Enhanced Background */}
+          <div className="absolute inset-0 bg-gradient-to-br from-indigo-900 via-purple-800 to-blue-900 animate-gradient-slow"></div>
+          
+          {/* Interactive Particle Background */}
+          <ParticleBackground
+            count={50}
+            colors={['#8B5CF6', '#C4B5FD', '#A78BFA', '#6366F1', '#4F46E5']}
+            gradient={true}
+            size={{ min: 2, max: 6 }}
+            speed={{ min: 25, max: 60 }}
+            direction="up"
+            interactivity={true}
+          />
+          
+          {/* Animated background elements with parallax - Simplified */}
+          <div className="absolute inset-0">
+            {/* Larger light circles with animation */}
+            <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-indigo-600/30 rounded-full filter blur-[100px] animate-pulse"></div>
+            <div className="absolute bottom-1/4 right-1/3 w-[500px] h-[500px] bg-purple-600/30 rounded-full filter blur-[120px] animate-pulse" style={{ animationDelay: '1s' }}></div>
+            <div className="absolute top-1/3 right-1/4 w-80 h-80 bg-blue-600/30 rounded-full filter blur-[100px] animate-pulse" style={{ animationDelay: '2s' }}></div>
+          </div>
+          
+          {/* Grid overlay with better opacity */}
+          <div className="absolute inset-0 opacity-15 bg-[url('/assets/svg/pattern-grid.svg')] bg-repeat"></div>
+          
+          {/* Gradient overlay with improved colors */}
+          <div className="absolute inset-0 bg-gradient-to-t from-indigo-900/70 via-transparent to-indigo-900/50"></div>
+        </div>
+
+        <motion.div className="container mx-auto px-4 md:px-6 relative z-10 text-center" style={{ y: heroTextY, opacity: heroOpacity }}>
+          <div className="text-white filter drop-shadow-xl">
+            <motion.div 
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+            >
+              <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white via-blue-100 to-indigo-200 animate-shine">
+                Discover German <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-300 to-purple-200">Innovations</span>
+              </h1>
+              <p className="text-lg md:text-xl text-gray-200 mb-10 max-w-2xl mx-auto backdrop-blur-sm bg-black/5 p-4 rounded-lg">
+                Explore the revolutionary inventions from Germany that changed the world through
+                interactive 3D models and timelines.
+              </p>
+            </motion.div>
+            
+            <motion.div 
+              className="flex flex-col sm:flex-row gap-5 justify-center"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2, duration: 1, ease: [0.22, 1, 0.36, 1] }}
+            >
+              <Link href="/timeline" className="btn-rounded-primary px-8 py-4 group relative overflow-hidden">
+                <span className="relative z-10">Explore Timeline</span>
+                <span className="absolute inset-0 bg-white/10 rounded-lg scale-0 group-hover:scale-100 transition-transform duration-300 ease-out"></span>
+              </Link>
+              <Link href="/gallery" className="btn-rounded-secondary px-8 py-4 group relative overflow-hidden">
+                <span className="relative z-10">View 3D Gallery</span>
+                <span className="absolute inset-0 bg-indigo-50/20 rounded-lg scale-0 group-hover:scale-100 transition-transform duration-300 ease-out"></span>
+              </Link>
+              <Link href="/inventions" className="btn-rounded-accent px-8 py-4 group relative overflow-hidden">
+                <span className="relative z-10">All Inventions</span>
+                <span className="absolute inset-0 bg-purple-50/20 rounded-lg scale-0 group-hover:scale-100 transition-transform duration-300 ease-out"></span>
+              </Link>
+            </motion.div>
+          </div>
+        </motion.div>
+
+        <motion.div 
+          className="absolute bottom-10 left-1/2 transform -translate-x-1/2 text-white animate-bounce"
+          style={{ opacity: heroOpacity }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.8, duration: 0.5 }}
+        >
+          <svg className="w-8 h-8 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+          </svg>
+          <span className="text-sm mt-2">Scroll Down</span>
+        </motion.div>
+      </section>
+
+      {/* Featured Inventions with Animation */}
+      <section className="py-20 bg-gradient-to-b from-indigo-50 via-purple-50 to-white">
+        <div className="container mx-auto px-4 md:px-6">
+          <div>
+            <ScrollReveal effect="fade" direction="up">
+              <div className="text-center mb-16">
+                <h2 className="text-3xl md:text-4xl font-bold mb-4 text-indigo-900 relative inline-block">
+                  Revolutionary German Inventions
+                  <span className="absolute -bottom-2 left-0 w-full h-1 bg-gradient-to-r from-indigo-500 to-purple-500"></span>
+                </h2>
+                <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+                  Germany has been at the forefront of innovation for centuries. Explore these groundbreaking
+                  inventions in interactive 3D.
+                </p>
+              </div>
+            </ScrollReveal>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {featuredInventions.map((invention, index) => (
+                <AnimatedCard
+                  key={invention.id}
+                  title={invention.name}
+                  description={Array.isArray(invention.description) 
+                    ? invention.description[0].substring(0, 120) + '...'
+                    : invention.description.substring(0, 120) + '...'}
+                  image={getInventionImagePath(invention.id)}
+                  year={invention.year}
+                  link={`/invention/${invention.id}`}
+                  delay={index * 0.1}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Information Section */}
+      <section className="py-20 bg-gradient-to-br from-indigo-100 to-purple-100">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="max-w-6xl mx-auto">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+              <ScrollReveal effect="slide" direction="left">
+                <div>
+                  <h2 className="text-3xl md:text-4xl font-bold mb-6 text-indigo-900 relative inline-block">
+                    Experience Inventions in 3D
+                    <span className="absolute -bottom-2 left-0 w-full h-1 bg-gradient-to-r from-indigo-500 to-purple-500"></span>
+                  </h2>
+                  <p className="text-lg text-gray-700 mb-6">
+                    Our interactive 3D models allow you to examine the details of these revolutionary 
+                    German inventions from every angle. Rotate, zoom, and explore the components that 
+                    changed the course of history.
+                  </p>
+                  <ul className="space-y-4 mb-8">
+                    {[
+                      "Interactive 3D models of famous German inventions",
+                      "Chronological timeline of German innovations",
+                      "Detailed historical information and facts"
+                    ].map((item, index) => (
+                      <ScrollReveal key={index} effect="slide" direction="left" delay={index * 0.1 + 0.2}>
+                        <li className="flex items-start bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 group">
+                          <span className="w-6 h-6 text-indigo-600 mt-1 mr-3 relative">
+                            <span className="absolute inset-0 rounded-full bg-indigo-100 scale-0 group-hover:scale-100 transition-transform duration-300"></span>
+                            <svg className="relative z-10" fill="currentColor" viewBox="0 0 20 20">
+                              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                            </svg>
+                          </span>
+                          <span className="text-gray-700">{item}</span>
+                        </li>
+                      </ScrollReveal>
+                    ))}
+                  </ul>
+                  <div className="flex flex-wrap items-center gap-4">
+                    <Link href="/gallery" className="btn-primary inline-flex items-center group relative overflow-hidden">
+                      <span className="relative z-10">Explore 3D Gallery</span>
+                      <svg className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                      </svg>
+                    </Link>
+                    <Link href="/inventions" className="btn-secondary inline-flex items-center group relative overflow-hidden">
+                      <span className="relative z-10">Inventors Gallery</span>
+                      <svg className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                      </svg>
+                    </Link>
+                  </div>
+                </div>
+              </ScrollReveal>
+              
+              <ScrollReveal effect="flip" direction="right" delay={0.2}>
+                <div className="bg-white/80 backdrop-blur-sm h-[500px] rounded-xl overflow-hidden shadow-2xl flex items-center justify-center border border-indigo-100 relative group">
+                  {/* Added hover effect with layered elements */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-indigo-100 to-white opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                  <div className="absolute inset-0 bg-[url('/assets/svg/pattern-grid.svg')] bg-repeat opacity-0 group-hover:opacity-10 transition-opacity duration-500"></div>
+                  
+                  <div className="text-center p-8 relative z-10 transform group-hover:scale-105 transition-transform duration-500">
+                    <motion.div 
+                      className="text-6xl mb-4"
+                      animate={{ rotate: [0, 10, 0, -10, 0] }}
+                      transition={{ repeat: Infinity, duration: 5, ease: "easeInOut" }}
+                    >
+                      🔍
+                    </motion.div>
+                    <h3 className="text-2xl font-bold mb-2 text-indigo-800">Interactive 3D Models</h3>
+                    <p className="text-indigo-700">Rotate, zoom, and explore German inventions in detail</p>
+                  </div>
+                </div>
+              </ScrollReveal>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Add animation styles */}
+      <style jsx global>{`
+        @keyframes floatParticle {
+          0%, 100% {
+            transform: translateY(0) translateX(0);
+          }
+          25% {
+            transform: translateY(-30px) translateX(15px);
+          }
+          50% {
+            transform: translateY(-15px) translateX(30px);
+          }
+          75% {
+            transform: translateY(-40px) translateX(-15px);
+          }
+        }
+        
+        @keyframes gradient-slow {
+          0% {
+            background-position: 0% 50%;
+          }
+          50% {
+            background-position: 100% 50%;
+          }
+          100% {
+            background-position: 0% 50%;
+          }
+        }
+        
+        @keyframes shine {
+          from {
+            background-position: 200% center;
+          }
+          to {
+            background-position: -200% center;
+          }
+        }
+        
+        .animate-gradient-slow {
+          background-size: 200% 200%;
+          animation: gradient-slow 15s ease infinite;
+        }
+        
+        .animate-shine {
+          background-size: 200% auto;
+          animation: shine 8s linear infinite;
+        }
+      `}</style>
+    </div>
+  );
+} 
